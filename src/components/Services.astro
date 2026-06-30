@@ -1,0 +1,56 @@
+---
+const services = [
+  {
+    number: '01',
+    title: 'Asesoría Legal Estratégica',
+    text: 'Acompañamos a empresas con orientación legal y estratégica para reducir riesgos, ordenar procesos y tomar mejores decisiones.',
+    icon: '<path d="M12 3v18M5 7h14M7 7l-4 8h8L7 7Zm10 0-4 8h8l-4-8ZM7 21h10"/>',
+  },
+  {
+    number: '02',
+    title: 'Automatización de Procesos',
+    text: 'Convertimos tareas repetitivas en flujos inteligentes para ahorrar tiempo, reducir errores y mejorar la productividad.',
+    icon: '<path d="M8 6h8M8 12h8M8 18h8M4 6h.01M4 12h.01M4 18h.01"/><path d="m16 16 3 2-3 2"/>',
+  },
+  {
+    number: '03',
+    title: 'Desarrollo de Software',
+    text: 'Creamos plataformas, dashboards, sistemas internos, APIs y aplicaciones adaptadas a los objetivos reales del negocio.',
+    icon: '<path d="m8 8-4 4 4 4m8-8 4 4-4 4M14 4l-4 16"/>',
+  },
+  {
+    number: '04',
+    title: 'Inteligencia Artificial Aplicada',
+    text: 'Implementamos IA para analizar información, asistir decisiones, optimizar operaciones y crear nuevas experiencias digitales.',
+    icon: '<rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 9h6v6H9zM9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/>',
+  },
+];
+---
+
+<section class="section services" id="servicios" aria-labelledby="services-title">
+  <div class="section-glow section-glow-left" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-dot"></span>Nuestras capacidades</p>
+        <h2 id="services-title">Tecnología que resuelve.<br /><span class="text-muted">Estrategia que impulsa.</span></h2>
+      </div>
+      <p>Integramos conocimiento legal, ingeniería y visión de negocio para convertir desafíos complejos en soluciones claras.</p>
+    </div>
+
+    <div class="services-grid">
+      {services.map((service) => (
+        <article class="glass-card service-card">
+          <div class="card-top">
+            <span class="service-icon">
+              <svg aria-hidden="true" viewBox="0 0 24 24" set:html={service.icon}></svg>
+            </span>
+            <span class="card-number">{service.number}</span>
+          </div>
+          <h3>{service.title}</h3>
+          <p>{service.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

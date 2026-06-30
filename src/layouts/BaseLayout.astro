@@ -1,0 +1,144 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = '/og/og.png',
+  imageAlt = 'LexInnovate: innovación legal, tecnología, automatización e inteligencia artificial',
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
+const socialImageUrl = new URL(image, siteUrl);
+const logoUrl = new URL('/favicon_io/android-chrome-512x512.png', siteUrl);
+
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bingSiteVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
+const xHandle = import.meta.env.PUBLIC_X_HANDLE;
+const socialProfiles = [
+  import.meta.env.PUBLIC_LINKEDIN_URL,
+  import.meta.env.PUBLIC_FACEBOOK_URL,
+  import.meta.env.PUBLIC_INSTAGRAM_URL,
+].filter(Boolean);
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${siteUrl}#organization`,
+    name: 'LexInnovate S.A.S.',
+    url: siteUrl.toString(),
+    logo: logoUrl.toString(),
+    image: socialImageUrl.toString(),
+    email: 'contacto@lexinnovate.com',
+    description,
+    areaServed: {
+      '@type': 'Country',
+      name: 'Ecuador',
+    },
+    knowsAbout: [
+      'Legal Tech',
+      'Desarrollo de software',
+      'Automatización de procesos',
+      'Inteligencia artificial aplicada',
+      'Soluciones digitales empresariales',
+    ],
+    ...(socialProfiles.length > 0 ? { sameAs: socialProfiles } : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteUrl}#website`,
+    url: siteUrl.toString(),
+    name: 'LexInnovate',
+    description,
+    inLanguage: 'es',
+    publisher: {
+      '@id': `${siteUrl}#organization`,
+    },
+  },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#060914" />
+    <meta name="application-name" content="LexInnovate" />
+    <meta name="apple-mobile-web-app-title" content="LexInnovate" />
+    <meta name="author" content="LexInnovate S.A.S." />
+    <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={noindex
+        ? 'noindex, nofollow'
+        : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
+    {googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
+    {bingSiteVerification && <meta name="msvalidate.01" content={bingSiteVerification} />}
+
+    <link rel="icon" href="/favicon_io/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png" />
+    <link rel="manifest" href="/favicon_io/site.webmanifest" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="es" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_EC" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="LexInnovate S.A.S." />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:secure_url" content={socialImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    {xHandle && <meta name="twitter:site" content={xHandle} />}
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+    {gaMeasurementId && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
+        <script is:inline define:vars={{ gaMeasurementId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', gaMeasurementId, { anonymize_ip: true });
+        </script>
+      </>
+    )}
+
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <slot />
+  </body>
+</html>

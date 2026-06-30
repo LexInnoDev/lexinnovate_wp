@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/hero-legal-tech.png';
+
+const badges = [
+  'Seguridad y confidencialidad',
+  'Tecnología de vanguardia',
+  'Soluciones a la medida',
+  'Resultados medibles',
+];
+---
+
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <div class="hero-grid-pattern" aria-hidden="true"></div>
+  <div class="container hero-layout">
+    <div class="hero-copy">
+      <div class="eyebrow reveal">
+        <span class="eyebrow-dot"></span>
+        Legal · Tech · Automation · AI
+      </div>
+      <h1 id="hero-title" class="reveal reveal-delay-1">
+        Transformamos empresas con
+        <span class="gradient-text">innovación legal, tecnología</span>
+        e inteligencia artificial
+      </h1>
+      <p class="hero-lead reveal reveal-delay-2">
+        Desarrollamos software, automatizamos procesos y diseñamos soluciones digitales
+        para empresas que quieren crecer con eficiencia, seguridad y visión estratégica.
+      </p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a class="button" href="#contacto">
+          Agenda una reunión
+          <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>
+        </a>
+        </div>
+    </div>
+
+    <div class="hero-visual reveal reveal-delay-2" aria-hidden="true">
+      <div class="hero-orbit orbit-one"></div>
+      <div class="hero-orbit orbit-two"></div>
+      <div class="hero-image-shell">
+        <Image
+          src={heroImage}
+          alt=""
+          width={784}
+          height={502}
+          loading="eager"
+          fetchpriority="high"
+          class="hero-image"
+        />
+      </div>
+      <div class="visual-chip chip-security">
+        <span class="chip-icon">✓</span>
+        <span><small>Infraestructura</small>Segura y escalable</span>
+      </div>
+      <div class="visual-chip chip-ai">
+        <span class="pulse"></span>
+        <span><small>IA aplicada</small>Inteligencia en acción</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container trust-row reveal reveal-delay-4">
+    {badges.map((badge) => (
+      <div class="trust-item">
+        <svg aria-hidden="true" viewBox="0 0 20 20"><path d="m5 10 3 3 7-7"/></svg>
+        <span>{badge}</span>
+      </div>
+    ))}
+  </div>
+</section>

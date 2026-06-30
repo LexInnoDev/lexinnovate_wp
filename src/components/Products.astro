@@ -1,0 +1,88 @@
+---
+import { Image } from 'astro:assets';
+import cuarentazoLogo from '../assets/logo_cuarentazo.png';
+import lexInnoPayLogo from '../assets/logo_lexinnopay.png';
+
+const products = [
+  {
+    name: 'LexInnoPay',
+    initial: 'L',
+    logo: lexInnoPayLogo,
+    description: 'Solución para aceptación de pagos digitales y USDT orientada a comercios y empresas modernas.',
+    status: 'Piloto',
+    className: 'status-pilot',
+    action: 'Ver producto',
+    href: 'https://lexinnopay.com',
+    external: true,
+  },
+  {
+    name: 'Cuarentazo',
+    initial: '40',
+    logo: cuarentazoLogo,
+    description: 'Plataforma digital del tradicional juego ecuatoriano Cuarenta, diseñada para conectar cultura, tecnología y entretenimiento.',
+    status: 'En desarrollo',
+    className: 'status-dev',
+    action: 'Ver producto',
+    href: 'https://cuarentazo.com',
+    external: true,
+  },
+  {
+    name: 'Soluciones a medida',
+    initial: '⌁',
+    description: 'Sistemas creados para necesidades específicas de empresas, instituciones y nuevos emprendimientos.',
+    status: 'Disponible',
+    className: 'status-available',
+    action: 'Cuéntanos tu necesidad',
+    href: '#contacto',
+    external: false,
+  },
+];
+---
+
+<section class="section products" id="productos" aria-labelledby="products-title">
+  <div class="container">
+    <div class="section-heading section-heading-centered">
+      <p class="eyebrow"><span class="eyebrow-dot"></span>Ecosistema de productos</p>
+      <h2 id="products-title">Productos creados bajo el<br /><span class="gradient-text">ecosistema LexInnovate</span></h2>
+      <p>Construimos y operamos tecnología propia. Esa experiencia fortalece cada solución que desarrollamos para nuestros clientes.</p>
+    </div>
+
+    <div class="products-grid">
+      {products.map((product) => (
+        <article class="glass-card product-card">
+          <div class="product-art" aria-hidden="true">
+            {product.logo ? (
+              <Image
+                src={product.logo}
+                alt=""
+                width={180}
+                height={180}
+                class="product-logo"
+              />
+            ) : (
+              <span class="product-symbol">{product.initial}</span>
+            )}
+            <span class="art-ring art-ring-one"></span>
+            <span class="art-ring art-ring-two"></span>
+          </div>
+          <div class="product-content">
+            <div class="product-heading">
+              <h3>{product.name}</h3>
+              <span class:list={['status', product.className]}>{product.status}</span>
+            </div>
+            <p>{product.description}</p>
+            <a
+              class="text-link product-action"
+              href={product.href}
+              target={product.external ? '_blank' : undefined}
+              rel={product.external ? 'noopener noreferrer' : undefined}
+            >
+              {product.action}
+              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+---
+const points = [
+  {
+    title: 'Experiencia real',
+    text: 'Creando y operando productos propios.',
+  },
+  {
+    title: 'Visión integral',
+    text: 'Enfoque técnico + legal + estratégico.',
+  },
+  {
+    title: 'Tecnología confiable',
+    text: 'Arquitecturas modernas y seguras.',
+  },
+  {
+    title: 'Ambición global',
+    text: 'Visión local con estándares globales.',
+  },
+];
+---
+
+<section class="section why-us" id="nosotros" aria-labelledby="why-title">
+  <div class="container why-layout">
+    <div class="why-copy">
+      <p class="eyebrow"><span class="eyebrow-dot"></span>La diferencia LexInnovate</p>
+      <h2 id="why-title">No solo desarrollamos software. <span class="gradient-text">Construimos soluciones</span> que entendemos, operamos y escalamos.</h2>
+      <p>Nos involucramos en el problema antes de escribir una línea de código. Diseñamos con criterio de negocio, rigor técnico y una mirada estratégica de largo plazo.</p>
+    </div>
+
+    <div class="why-grid">
+      {points.map((point, index) => (
+        <article class="why-point">
+          <span class="why-index">0{index + 1}</span>
+          <span class="check-mark">
+            <svg aria-hidden="true" viewBox="0 0 20 20"><path d="m5 10 3 3 7-7"/></svg>
+          </span>
+          <h3>{point.title}</h3>
+          <p>{point.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
