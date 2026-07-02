@@ -35,6 +35,9 @@ integraciones opcionales, crea las variables necesarias de `.env.example` en:
 Configúralas para Production y Preview según corresponda:
 
 - `PUBLIC_GA_MEASUREMENT_ID`
+- `PUBLIC_GTM_ID`
+- `PUBLIC_META_PIXEL_ID`
+- `PUBLIC_TIKTOK_PIXEL_ID`
 - `PUBLIC_GOOGLE_SITE_VERIFICATION`
 - `PUBLIC_BING_SITE_VERIFICATION`
 - `PUBLIC_X_HANDLE`
@@ -44,6 +47,11 @@ Configúralas para Production y Preview según corresponda:
 
 Las variables `PUBLIC_*` se incorporan durante el build. Después de cambiarlas,
 es necesario generar un nuevo deployment.
+
+Google Analytics y Google Tag Manager solo se cargan cuando la persona acepta
+la categoría analítica. Meta Pixel y TikTok Pixel solo se cargan al aceptar la
+categoría publicitaria. Si una variable queda vacía, esa integración permanece
+deshabilitada.
 
 ## Deploy
 

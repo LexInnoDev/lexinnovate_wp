@@ -3,17 +3,17 @@ import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
 
 const links = [
-  { href: '#inicio', label: 'Inicio' },
-  { href: '#servicios', label: 'Servicios' },
-  { href: '#productos', label: 'Productos' },
-  { href: '#nosotros', label: 'Nosotros' },
-  { href: '#contacto', label: 'Contacto' },
+  { href: '/#inicio', label: 'Inicio' },
+  { href: '/#servicios', label: 'Servicios' },
+  { href: '/#productos', label: 'Productos' },
+  { href: '/#nosotros', label: 'Nosotros' },
+  { href: '/#contacto', label: 'Contacto' },
 ];
 ---
 
 <header class="site-header" data-header>
   <div class="container header-inner">
-    <a class="brand" href="#inicio" aria-label="LexInnovate, inicio">
+    <a class="brand" href="/" aria-label="LexInnovate, inicio">
       <Image src={logo} alt="" width={52} height={52} class="brand-mark" />
       <span class="brand-name">Lex<span>Innovate</span></span>
     </a>

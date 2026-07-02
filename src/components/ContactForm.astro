@@ -1,0 +1,63 @@
+---
+import PrivacyConsent from './PrivacyConsent.astro';
+---
+
+<form class="contact-form" data-contact-form>
+  <div class="form-grid">
+    <label>
+      <span>Nombre <b aria-hidden="true">*</b></span>
+      <input type="text" name="name" autocomplete="name" required />
+    </label>
+    <label>
+      <span>Correo electrónico <b aria-hidden="true">*</b></span>
+      <input type="email" name="email" autocomplete="email" required />
+    </label>
+    <label>
+      <span>Teléfono <b aria-hidden="true">*</b></span>
+      <input type="tel" name="phone" autocomplete="tel" required />
+    </label>
+    <label>
+      <span>Empresa</span>
+      <input type="text" name="company" autocomplete="organization" />
+    </label>
+    <label class="form-message">
+      <span>Cuéntanos sobre tu proyecto <b aria-hidden="true">*</b></span>
+      <textarea name="message" rows="4" required></textarea>
+    </label>
+  </div>
+
+  <PrivacyConsent />
+
+  <button class="button button-light" type="submit">
+    Enviar por WhatsApp
+    <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>
+  </button>
+  <p class="form-note" data-form-note aria-live="polite">
+    Tus datos se enviarán únicamente cuando continúes en WhatsApp.
+  </p>
+</form>
+
+<script>
+  const contactForm = document.querySelector<HTMLFormElement>('[data-contact-form]');
+
+  contactForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!contactForm.reportValidity()) return;
+
+    const data = new FormData(contactForm);
+    const company = String(data.get('company') || '').trim();
+    const lines = [
+      'Hola LexInnovate, quiero conversar sobre un proyecto.',
+      '',
+      `Nombre: ${String(data.get('name') || '').trim()}`,
+      `Correo: ${String(data.get('email') || '').trim()}`,
+      `Teléfono: ${String(data.get('phone') || '').trim()}`,
+      ...(company ? [`Empresa: ${company}`] : []),
+      '',
+      `Mensaje: ${String(data.get('message') || '').trim()}`,
+    ];
+
+    const whatsappUrl = `https://wa.me/593992989684?text=${encodeURIComponent(lines.join('\n'))}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  });
+</script>

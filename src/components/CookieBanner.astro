@@ -1,0 +1,101 @@
+<div class="cookie-banner" data-cookie-banner hidden>
+  <div class="cookie-banner-copy">
+    <h2>Tu privacidad importa</h2>
+    <p>
+      Usamos almacenamiento esencial para recordar tus preferencias. Con tu permiso,
+      también podremos usar tecnologías analíticas y publicitarias.
+      <a href="/politica-de-cookies/">Conoce nuestra Política de Cookies</a>.
+    </p>
+  </div>
+  <div class="cookie-actions">
+    <button class="button button-secondary" type="button" data-cookie-reject>Solo esenciales</button>
+    <button class="button" type="button" data-cookie-customize>Configurar</button>
+    <button class="button" type="button" data-cookie-accept>Aceptar todas</button>
+  </div>
+</div>
+
+<dialog class="cookie-dialog" data-cookie-dialog aria-labelledby="cookie-dialog-title">
+  <form method="dialog">
+    <div class="cookie-dialog-heading">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-dot"></span>Privacidad</p>
+        <h2 id="cookie-dialog-title">Preferencias de cookies</h2>
+      </div>
+      <button class="cookie-close" value="cancel" aria-label="Cerrar preferencias">×</button>
+    </div>
+    <p>Elige qué tecnologías opcionales puede utilizar LexInnovate en este navegador.</p>
+
+    <div class="cookie-option">
+      <span><strong>Esenciales</strong><small>Necesarias para guardar tus preferencias.</small></span>
+      <input type="checkbox" checked disabled aria-label="Cookies esenciales siempre activas" />
+    </div>
+    <label class="cookie-option">
+      <span><strong>Analíticas</strong><small>Google Analytics y Google Tag Manager, si se configuran.</small></span>
+      <input type="checkbox" name="analytics" />
+    </label>
+    <label class="cookie-option">
+      <span><strong>Publicitarias</strong><small>Meta Pixel y TikTok Pixel, si se configuran.</small></span>
+      <input type="checkbox" name="advertising" />
+    </label>
+
+    <button class="button" value="save" data-cookie-save>Guardar preferencias</button>
+  </form>
+</dialog>
+
+<script>
+  const consentKey = 'lexinnovate_cookie_consent_v1';
+  const banner = document.querySelector<HTMLElement>('[data-cookie-banner]');
+  const dialog = document.querySelector<HTMLDialogElement>('[data-cookie-dialog]');
+  const analytics = dialog?.querySelector<HTMLInputElement>('[name="analytics"]');
+  const advertising = dialog?.querySelector<HTMLInputElement>('[name="advertising"]');
+
+  type Consent = { essential: true; analytics: boolean; advertising: boolean };
+
+  const readConsent = (): Consent | null => {
+    try {
+      const stored = localStorage.getItem(consentKey);
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const saveConsent = (preferences: Consent) => {
+    try {
+      localStorage.setItem(consentKey, JSON.stringify(preferences));
+    } catch {
+      // The selected preferences still apply to the current page.
+    }
+    banner?.setAttribute('hidden', '');
+    window.dispatchEvent(new CustomEvent('lexinnovate:consent', { detail: preferences }));
+  };
+
+  const openSettings = () => {
+    const current = readConsent();
+    if (analytics) analytics.checked = current?.analytics ?? false;
+    if (advertising) advertising.checked = current?.advertising ?? false;
+    dialog?.showModal();
+  };
+
+  if (!readConsent()) banner?.removeAttribute('hidden');
+
+  document.querySelector('[data-cookie-accept]')?.addEventListener('click', () => {
+    saveConsent({ essential: true, analytics: true, advertising: true });
+  });
+  document.querySelector('[data-cookie-reject]')?.addEventListener('click', () => {
+    saveConsent({ essential: true, analytics: false, advertising: false });
+  });
+  document.querySelector('[data-cookie-customize]')?.addEventListener('click', openSettings);
+  document.querySelectorAll('[data-cookie-settings]').forEach((button) => {
+    button.addEventListener('click', openSettings);
+  });
+  document.querySelector('[data-cookie-save]')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    saveConsent({
+      essential: true,
+      analytics: analytics?.checked ?? false,
+      advertising: advertising?.checked ?? false,
+    });
+    dialog?.close();
+  });
+</script>
